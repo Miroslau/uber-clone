@@ -1,5 +1,5 @@
 import { Control } from "react-hook-form";
-import { IAuthFormSignUp } from "@/types/auth.interface";
+import { IAuthFormSignIn, IAuthFormSignUp } from "@/types/auth.interface";
 import { FC } from "react";
 import { icons } from "@/constants";
 import InputField from "@/components/input-field/input-field";
@@ -7,6 +7,10 @@ import { validEmail } from "@/app/(auth)/auth-fields/email.regex";
 
 interface IAuthFields {
   control: Control<IAuthFormSignUp>;
+}
+
+interface ISignInFields {
+  control: Control<IAuthFormSignIn>;
 }
 
 const AuthFields: FC<IAuthFields> = ({ control }) => {
@@ -59,4 +63,43 @@ const AuthFields: FC<IAuthFields> = ({ control }) => {
   );
 };
 
-export default AuthFields;
+const SignInFields: FC<ISignInFields> = ({ control }) => {
+  return (
+    <>
+      <InputField<IAuthFormSignIn>
+        label="Email"
+        placeholder="Enter email"
+        control={control}
+        name="email"
+        icon={icons.email}
+        rules={{
+          required: "Email is required",
+          pattern: {
+            value: validEmail,
+            message: "Please enter a valid email address",
+          },
+        }}
+        textContentType="emailAddress"
+        keyboardType="email-address"
+      />
+      <InputField<IAuthFormSignIn>
+        label="Password"
+        placeholder="Enter password"
+        control={control}
+        icon={icons.lock}
+        textContentType="password"
+        secureTextEntry
+        name="password"
+        rules={{
+          required: "Password is required",
+          minLength: {
+            value: 6,
+            message: "Password should be minimum 6 characters long",
+          },
+        }}
+      />
+    </>
+  );
+};
+
+export { AuthFields, SignInFields };

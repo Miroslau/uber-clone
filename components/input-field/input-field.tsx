@@ -1,7 +1,6 @@
 import React from "react";
 import {
   KeyboardAvoidingView,
-  TouchableWithoutFeedbackBase,
   View,
   Text,
   Platform,

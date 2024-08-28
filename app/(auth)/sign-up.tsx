@@ -1,14 +1,20 @@
 import { ScrollView, View, Image, Text } from "react-native";
-import { icons, images } from "@/constants";
-import InputField from "@/components/input-field/input-field";
-import { useForm } from "react-hook-form";
-import { IAuthFormData, IAuthFormSignUp } from "@/types/auth.interface";
-import AuthFields from "@/app/(auth)/auth-fields/auth-fields";
+import { images } from "@/constants";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { IAuthFormSignUp } from "@/types/auth.interface";
+import { AuthFields } from "@/app/(auth)/auth-fields/auth-fields";
+import CustomButton from "@/components/custom-button";
+import { Link } from "expo-router";
+import OAuth from "@/components/o-auth/o-auth";
 
 const SignUp = () => {
   const { handleSubmit, reset, control } = useForm<IAuthFormSignUp>({
     mode: "onChange",
   });
+
+  const signUpSubmit: SubmitHandler<IAuthFormSignUp> = (data) => {
+    console.log("data: ", data);
+  };
 
   return (
     <ScrollView className="flex-1 bg-white">
@@ -21,6 +27,21 @@ const SignUp = () => {
         </View>
         <View className="p-5">
           <AuthFields control={control} />
+          <CustomButton
+            title="Sign Up"
+            className="mt-6"
+            onPress={handleSubmit(signUpSubmit)}
+          />
+
+          <OAuth />
+
+          <Link
+            href="/sign-in"
+            className="text-lg text-center text-general-200 mt-10"
+          >
+            <Text>Already have an account? </Text>
+            <Text className="text-primary-500">Log In</Text>
+          </Link>
         </View>
       </View>
     </ScrollView>
